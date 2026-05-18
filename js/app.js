@@ -1,7 +1,7 @@
 /**
  * DTPR Platform — Core App Engine + Admin Auth
  * ============================================================
- * Admin pages (Settings, Signage, Deploy Guide) are hidden
+ * Admin pages (Settings, Signage) are hidden
  * from the public. Access is unlocked by:
  *   1. Clicking the project name in the navbar 5 times quickly, OR
  *   2. Pressing  Ctrl + Shift + A  on any page, OR
@@ -13,7 +13,7 @@
 
 /* ── Admin session helpers ────────────────────────────────── */
 const ADMIN_KEY   = 'dtpr_admin_session';
-const ADMIN_PAGES = ['settings.html', 'signage.html', 'deploy.html'];
+const ADMIN_PAGES = ['settings.html', 'signage.html'];
 
 function isAdminPage() {
   const page = location.pathname.split('/').pop();

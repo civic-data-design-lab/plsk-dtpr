@@ -38,12 +38,6 @@ const DTPR_CONFIG = {
       adminOnly: true,
     },
     { label: "Signage", href: "signage.html", newTab: false, adminOnly: true },
-    {
-      label: "Deploy Guide",
-      href: "deploy.html",
-      newTab: false,
-      adminOnly: true,
-    },
   ],
 
   /* ── Survey / Qualitative Tool URL ─────────────────────── */
@@ -151,7 +145,11 @@ const DTPR_CONFIG = {
   if (saved) {
     try {
       const overrides = JSON.parse(saved);
-      if (overrides.heroBackground === "assets/backgroundImage.jpg") {
+      if (
+        overrides.heroBackground === "assets/backgroundImage.jpg" ||
+        overrides.heroBackground === "assets/source/background_image_sample.png" ||
+        !String(overrides.heroBackground || "").trim()
+      ) {
         delete overrides.heroBackground;
       }
       Object.assign(DTPR_CONFIG, overrides);

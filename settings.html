@@ -257,6 +257,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         setPageTitle("Settings");
+        let pendingHeroBackground = null;
 
         /* ── Populate fields from DTPR_CONFIG ─── */
         function populate() {
@@ -327,10 +328,15 @@
           .addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            const url = URL.createObjectURL(file);
-            document.getElementById("s-heroBackground").value = file.name;
-            document.getElementById("bg-preview").style.backgroundImage =
-              `url('${url}')`;
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+              pendingHeroBackground = reader.result;
+              document.getElementById("s-heroBackground").value =
+                reader.result;
+              document.getElementById("bg-preview").style.backgroundImage =
+                `url('${reader.result}')`;
+            });
+            reader.readAsDataURL(file);
           });
 
         /* ── Partner / link editor ───────────── */
@@ -380,13 +386,16 @@
 
         /* ── Save ────────────────────────────── */
         document.getElementById("btn-save").addEventListener("click", () => {
+          const heroBackground =
+            pendingHeroBackground ||
+            document.getElementById("s-heroBackground").value.trim();
           const overrides = {
             projectName: document.getElementById("s-projectName").value,
             projectTagline: document.getElementById("s-projectTagline").value,
             projectDescription: document.getElementById("s-projectDescription")
               .value,
             projectFunding: document.getElementById("s-projectFunding").value,
-            heroBackground: document.getElementById("s-heroBackground").value,
+            heroBackground,
             accentColor: document.getElementById("s-accentColor").value,
             surveyUrl: document.getElementById("s-surveyUrl").value,
             surveyLabel: document.getElementById("s-surveyLabel").value,
